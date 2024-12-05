@@ -16,10 +16,6 @@ public class BlockSpawner : MonoBehaviour
         // Instantiate a new block at a specific position
         Vector3 spawnPosition = new Vector3(Random.Range(-14f,14f),0.5f, Random.Range(-13.5f,13.5f));// You can change the position as needed
         //transform.rotation.z = Random.Range(0, 360);
-        xrotate = new Float(Random.Range(0f, 360f));
-        zrotate = new Float(Random.Range(0f, 360f));
-        Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(xrotate,30,zrotate));
+        Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(0,Random.Range(0f,360f),0));
     }
 }
-
-//computer 16
