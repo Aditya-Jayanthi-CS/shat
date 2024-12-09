@@ -1,21 +1,38 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BlockSpawner : MonoBehaviour
 {
-    public GameObject blockPrefab; // Reference to the block prefab
-    public float spawnInterval = 2.0f; // Time interval between spawn
+    public UIDocument uiDocument;
+    public GameObject blockPrefab;
 
     void Start()
     {
-        // Start the spawning process
-        InvokeRepeating("SpawnBlock", 2f, 0f);
+        // Find the button in the UI Document and assign the GenerateMaze method to its click event
+        VisualElement root = uiDocument.rootVisualElement;
+        Button generateButton = root.Q<Button>("generateMaze");
+
+        if (generateButton != null)
+        {
+            generateButton.clicked += () => SpawnRandom(5);
+        }
+        else
+        {
+            Debug.LogError("Button not found! Make sure the button has the correct name.");
+        }
     }
 
     void SpawnBlock()
     {
-        // Instantiate a new block at a specific position
-        Vector3 spawnPosition = new Vector3(Random.Range(-14f,14f),0.5f, Random.Range(-13.5f,13.5f));// You can change the position as needed
-        //transform.rotation.z = Random.Range(0, 360);
-        Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(0,Random.Range(0f,360f),0));
+        Vector3 spawnPosition = new Vector3(Random.Range(-14f, 14f), 0.5f, Random.Range(-13.5f, 13.5f));
+        Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
+    }
+
+    void SpawnRandom(int numberOfBlocks)
+    {
+        for (int i = 1; i <= numberOfBlocks; i++)
+        {
+            SpawnBlock();
+        }
     }
 }
