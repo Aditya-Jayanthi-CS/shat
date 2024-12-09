@@ -1,0 +1,17 @@
+ public UIDocument uiDocument; 
+
+void Start()
+ {
+     // Find the button in the UI Document and assign the GenerateMaze method to its click event
+     VisualElement root = uiDocument.rootVisualElement;
+     Button generateButton = root.Q<Button>("generateMaze");
+
+     if (generateButton != null)
+     {
+         generateButton.clicked += GenerateMaze;
+     }
+     else
+     {
+         Debug.LogError("Button not found! Make sure the button has the correct name.");
+     }
+ }
