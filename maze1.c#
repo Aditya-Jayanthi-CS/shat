@@ -4,9 +4,6 @@ using UnityEngine.UIElements;  // Make sure to include this for UIElements compo
 public class GridSpawner : MonoBehaviour
 {
     public GameObject cubiclePrefab;  // The prefab to instantiate
-    public int gridWidth = 20;        // The width of the grid (number of Cubicles on the X axis)
-    public int gridHeight = 20;       // The height of the grid (number of Cubicles on the Z axis)
-    public float gridSpacing = 2f;    // The distance between each cubicle (based on the prefab's size)
     public Vector3 gridStartPosition = Vector3.zero;  // Starting position of the grid (adjustable)
     public UIDocument uiDocument;     // Reference to the UI Document
 
@@ -20,7 +17,7 @@ public class GridSpawner : MonoBehaviour
 
         if (generateButton != null)
         {
-            generateButton.clicked += GenerateMaze;
+            generateButton.clicked += () => GenerateMaze(10, 10, 2);
         }
         else
         {
@@ -28,7 +25,7 @@ public class GridSpawner : MonoBehaviour
         }
     }
 
-    void GenerateMaze()
+    void GenerateMaze(int gridWidth, int gridHeight, int gridSpacing)
     {
         // Loop through the grid dimensions and instantiate the prefab at the correct positions
         for (int x = 0; x < gridWidth; x++)
