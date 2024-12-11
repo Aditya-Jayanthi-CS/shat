@@ -5,16 +5,20 @@ public class BlockSpawner : MonoBehaviour
 {
     public UIDocument uiDocument;
     public GameObject blockPrefab;
+    private Button generateButton;
 
     void Start()
     {
-        // Find the button in the UI Document and assign the GenerateMaze method to its click event
         VisualElement root = uiDocument.rootVisualElement;
-        Button generateButton = root.Q<Button>("generateMaze");
+        generateButton = root.Q<Button>("generateMaze");
 
         if (generateButton != null)
         {
-            generateButton.clicked += () => SpawnRandom(5);
+            generateButton.clicked += () =>
+            {
+                SpawnRandom();
+                generateButton.SetEnabled(false); // Disable button after spawning
+            };
         }
         else
         {
@@ -24,12 +28,13 @@ public class BlockSpawner : MonoBehaviour
 
     void SpawnBlock()
     {
-        Vector3 spawnPosition = new Vector3(Random.Range(-14f, 14f), 0.5f, Random.Range(-13.5f, 13.5f));
+        Vector3 spawnPosition = new Vector3(Random.Range(-14f, 14f), 0.5f, Random.Range(-20f, 20f));
         Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
     }
 
-    void SpawnRandom(int numberOfBlocks)
+    void SpawnRandom()
     {
+        int numberOfBlocks = Random.Range(3, 10); // Generate a random number of blocks between 3 and 9
         for (int i = 1; i <= numberOfBlocks; i++)
         {
             SpawnBlock();
