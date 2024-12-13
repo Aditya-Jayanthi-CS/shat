@@ -1,8 +1,8 @@
-  public class RandomColor
+  public class RandomColor : MonoBehaviour
   {   
       public static void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue) 
       { 
-          Random random = new Random();
+          System.Random random = new System.Random();
 
           for (int i = 0; i < count; i + +)
           {
@@ -12,6 +12,10 @@
   
               Color randomColor = Color.FromArgb(red, green, blue); 
               Console.WriteLine($"Random color for maze walls: #{randomColor.R:X2}{randomColor.G:X2}{randomColor.B:X2}");
+
+              if (renderer != null) 
+              {
+                  renderer.material.color = randomColor;
           }
 
       public static void Main()
