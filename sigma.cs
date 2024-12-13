@@ -1,35 +1,31 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
-using System.Drawing;
 
-public class RandomColor : MonoBehaviour
-{
-    public Material newMaterial;
+  public class RandomColor : MonoBehaviour
+  {   
+      public static void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue) 
+      { 
+          System.Random random = new System.Random();
 
-    public void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue)
-    {
-        System.Random random = new System.Random();
-        int red = random.Next(minRed, maxRed + 1);
-        int green = random.Next(minGreen, maxGreen + 1);
-        int blue = random.Next(minBlue, maxBlue + 1);
+          for (int i = 0; i < count; i + +)
+          {
+              int red = random.Next(minRed, maxRed + 1); 
+              int green = random.Next(minGreen, maxGreen + 1); 
+              int blue = random.Next(minBlue, maxBlue + 1); 
+  
+              Color randomColor = Color.FromArgb(red, green, blue); 
+              Console.WriteLine($"Random color for maze walls: #{randomColor.R:X2}{randomColor.G:X2}{randomColor.B:X2}");
 
-        Color randomColor = new Color(red / 255f, green / 255f, blue / 255f); // Normalize color values
-        Debug.Log($"Random color for maze walls: #{red:X2}{green:X2}{blue:X2}");
+              if (renderer != null) 
+              {
+                  renderer.material.color = randomColor;
+          }
 
-        // Assuming you want to apply this color to the material
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.material.color = randomColor;
-        }
-    }
-
-    void Start()
-    {
-        // Example call to GenerateColor
-        GenerateColor(50, 200, 100, 255, 0, 150);
-    }
+      public static void Main()
+      {
+          GeneratorColor(50, 200, 100, 255, 0, 150);
+      }
 }
 
 public class GridSpawner : MonoBehaviour
