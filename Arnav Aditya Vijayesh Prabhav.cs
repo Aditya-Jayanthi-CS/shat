@@ -1,6 +1,6 @@
-//These is the code that has these three people's functions. Rohit and Prabhav's still need to be added
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Drawing;
 
 public class MazeRandomizer : MonoBehaviour
 {
@@ -28,6 +28,7 @@ public class MazeRandomizer : MonoBehaviour
 
     void SpawnBlockMaze()
     {
+        //Aditya's maze function
         int numberOfBlocks = Random.Range(15, 100); // Generate a random number of blocks between 3 and 9
         for (int i = 1; i <= numberOfBlocks; i++)
         {
@@ -38,6 +39,8 @@ public class MazeRandomizer : MonoBehaviour
 
     void GenerateGridMaze(int gridWidth, int gridHeight, int gridSpacing)
     {
+        //Arnav's maze function
+
         // Loop through the grid dimensions and instantiate the prefab at the correct positions
         for (int x = 0; x < gridWidth; x++)
         {
@@ -71,4 +74,24 @@ public class MazeRandomizer : MonoBehaviour
             GenerateGridMaze(10, 10, 2); // Adjust parameters as needed
         }
     }
+    void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue)
+    {
+        System.Random random = new System.Random();
+
+        for (int i = 0; i < 5; i++)
+        {
+            int red = random.Next(minRed, maxRed + 1);
+            int green = random.Next(minGreen, maxGreen + 1);
+            int blue = random.Next(minBlue, maxBlue + 1);
+
+            UnityEngine.Color randomColor = new UnityEngine.Color(red / 255f, green / 255f, blue / 255f);
+            Debug.Log($"Random color for maze walls: {randomColor}");
+
+            if (GetComponent<Renderer>() != null)
+            {
+                GetComponent<Renderer>().material.color = randomColor;
+            }
+        }
+    }
+
 }
