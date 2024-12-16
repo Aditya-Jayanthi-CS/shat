@@ -9,6 +9,9 @@ public class MazeRandomizer : MonoBehaviour
     public GameObject cubiclePrefab;  // The cubicle prefab
     public Vector3 gridStartPosition = Vector3.zero;  // Starting coords of the grid
     public UIDocument uiDocument;     //UI stuff
+    public GameObject startPrefab;
+    public GameObject endPrefab;
+    public GameObject player;
     private int[] rotationAngles = { 0, 90, 180, 270, 360 };  //list of random rotations for prefab
 
     void Start()
@@ -29,10 +32,10 @@ public class MazeRandomizer : MonoBehaviour
     void SpawnBlockMaze()
     {
         //Aditya's maze function
-        int numberOfBlocks = Random.Range(15, 100); // Generate a random number of blocks between 3 and 9
+        int numberOfBlocks = Random.Range(50, 75); // Generate a random number of blocks between 3 and 9
         for (int i = 1; i <= numberOfBlocks; i++)
         {
-            Vector3 spawnPosition = new Vector3(Random.Range(-14f, 14f), 0.5f, Random.Range(-20f, 20f));
+            Vector3 spawnPosition = new Vector3(Random.Range(-9.5f, 9.5f), 0.5f, Random.Range(-9.5f, 9.5f));
             Instantiate(blockPrefab, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
         }
     }
@@ -63,6 +66,7 @@ public class MazeRandomizer : MonoBehaviour
 
     void RandomizeMaze()
     {
+        //Vijayesh's randomise function
         int mazeType = Random.Range(0, 2); // Randomly choose 0 or 1
 
         if (mazeType == 0)
@@ -94,5 +98,23 @@ public class MazeRandomizer : MonoBehaviour
             }
         }
     }
+
+    void SpawnStartPoint(Vector3 position)
+    {
+        //Rohit's spawn randomiser function
+        Vector3 spawnpos1 = new Vector3(Random.Range(-9.5f, 9.5f), 0.5f, Random.Range(-9.5f, 9.5f));
+        GameObject spawnObject = Instantiate(startPrefab, spawnpos1, Quaternion.identity);
+        player.transform.position=spawnObject.transform.position
+        Debug.Log("Start prefab instantiated at: " + position);
+    }
+
+    void SpawnEndPoint(Vector3 position)
+    {
+        //Rohit's spawn randomiser function
+        Vector3 spawnpos2 = new Vector3(Random.Range(-9.5f, 9.5f), 0.5f, Random.Range(-9.5f, 9.5f));
+        Instantiate(endPrefab, spawnpos2, Quaternion.identity);
+        Debug.Log("End prefab instantiated at: " + position);
+    }
+
 
 }
