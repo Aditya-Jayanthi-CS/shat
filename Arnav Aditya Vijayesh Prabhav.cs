@@ -76,6 +76,7 @@ public class MazeRandomizer : MonoBehaviour
     }
     void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue)
     {
+        //Prabhav's color function
         System.Random random = new System.Random();
 
         for (int i = 0; i < 5; i++)
