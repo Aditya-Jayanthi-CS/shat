@@ -1,51 +1,62 @@
-using UnityEngine;
+using System.Collections.Generic;
 
-public class GridSpawner : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
-    public GameObject cubiclePrefab;
     public GameObject startPrefab;
     public GameObject endPrefab;
-    public Vector3 gridStartPosition = Vector3.zero;
+    public GameObject player;
+
+    private List<Vector3> spawnPositions = new List<Vector3>();
 
     void Start()
     {
-        GenerateMaze(10, 10, 2);
+       
+        SpawnPoints();
     }
 
-    void GenerateMaze(int gridWidth, int gridHeight, int gridSpacing)
+    void SpawnPoints()
     {
-        for (int x = 0; x < gridWidth; x++)
+        int spawnCount = 0;
+        while (spawnCount < 2)
         {
-            for (int z = 0; z < gridHeight; z++)
+            Vector3 spawnPosition = new Vector3(Random.Range(-9.5f, 9.5f), 0.5f, Random.Range(-9.5f, 9.5f));
+            
+         
+            if (!spawnPositions.Contains(spawnPosition)) 
             {
-                Vector3 position = gridStartPosition + new Vector3(x * gridSpacing, 0f, z * gridSpacing);
-                Quaternion rotation = Quaternion.Euler(0f, Random.Range(0, 360), 0f);
-                Instantiate(cubiclePrefab, position, rotation);
+                spawnPositions.Add(spawnPosition);
+
+              
+                for (int i = 0; i < 1; i++)
+                {
+                    if (spawnCount == 0)
+                    {
+                        SpawnStartPoint(spawnPosition);
+                    }
+                    else
+                    {
+                        SpawnEndPoint(spawnPosition);
+                    }
+                }
+
+                spawnCount++;
             }
         }
-
-        Vector3 startPosition = gridStartPosition;
-        Vector3 endPosition = gridStartPosition + new Vector3((gridWidth - 1) * gridSpacing, 0f, (gridHeight - 1) * gridSpacing);
-        
-        SpawnStartPoint(startPosition);
-        SpawnEndPoint(endPosition);
     }
 
     void SpawnStartPoint(Vector3 position)
     {
-        if (startPrefab != null)
-        {
-            Instantiate(startPrefab, position, Quaternion.identity);
-            Debug.Log("Start prefab instantiated at: " + position);
-        }
+        //Rohit's spawn randomiser function
+        GameObject spawnObject = Instantiate(startPrefab, position, Quaternion.identity);
+        player.transform.position = spawnObject.transform.position;
+        Debug.Log("Start prefab instantiated at: " + position);
     }
 
     void SpawnEndPoint(Vector3 position)
     {
-        if (endPrefab != null)
-        {
-            Instantiate(endPrefab, position, Quaternion.identity);
-            Debug.Log("End prefab instantiated at: " + position);
-        }
+        //Rohit's spawn randomiser function
+        Instantiate(endPrefab, position, Quaternion.identity);
+        Debug.Log("End prefab instantiated at: " + position);
     }
 }
+
