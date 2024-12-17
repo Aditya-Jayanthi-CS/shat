@@ -23,4 +23,13 @@
       }
 }
 
+List<Color> randomColors = new List<Color>();
+randomColors.Add(randomColor);
+
+Console.WriteLine("Here is the list of colors that were generated so far: ");
+foreach (Color color in randomColors)
+{
+    Console.WriteLine(color);
+}
+
   
