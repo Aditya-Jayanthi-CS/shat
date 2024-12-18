@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -6,51 +7,56 @@ public class SpawnManager : MonoBehaviour
     public GameObject endPrefab;
     public GameObject player;
 
+    // Student-developed procedure
+    void SpawnPoints(List<Vector3> positions, bool spawnStartPoints)
+    {
+        foreach (Vector3 position in positions)
+        {
+            // Selection: Decide which prefab to spawn based on the parameter
+            GameObject prefabToSpawn = spawnStartPoints ? startPrefab : endPrefab;
+
+            // Instantiate the prefab at the given position
+            GameObject spawnObject = Instantiate(prefabToSpawn, position, Quaternion.identity);
+
+            // If spawning start points, set the player position to the last start point
+            if (spawnStartPoints)
+            {
+                player.transform.position = spawnObject.transform.position;
+            }
+
+            // Log the spawned position
+            Debug.Log((spawnStartPoints ? "Start" : "End") + " prefab instantiated at: " + position);
+        }
+    }
+
     void Start()
     {
-        // Sequence: Define start and end positions
-        Vector3 startPosition = new Vector3(0, 0, 0);
-        Vector3 endPosition = new Vector3(10, 0, 0);
-
-        // Selection: Determine which point to spawn
-        if (Random.value > 0.5f)
+        // Sequence: Define positions to spawn and store them in a List
+        List<Vector3> positions = new List<Vector3>()
         {
-            SpawnStartPoint(startPosition);
-        }
-        else
+            new Vector3(0, 0, 0),
+            new Vector3(10, 0, 0),
+            new Vector3(20, 0, 0),
+            new Vector3(30, 0, 0),
+            new Vector3(40, 0, 0)
+        };
+
+        // Call the student-developed procedure with parameters
+        SpawnPoints(positions, true);  // Spawn start points
+        SpawnPoints(positions, false); // Spawn end points
+
+        // Create new data from the existing data
+        List<Vector3> newPositions = new List<Vector3>();
+        foreach (Vector3 position in positions)
         {
-            SpawnEndPoint(endPosition);
+            // Create new positions by offsetting the existing ones
+            Vector3 newPosition = position + new Vector3(5, 0, 5);
+            newPositions.Add(newPosition);
         }
 
-        // Iteration: Spawn multiple points
-        for (int i = 0; i < 5; i++)
-        {
-            Vector3 randomPosition = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-            SpawnRandomPoint(randomPosition);
-        }
-    }
-
-    void SpawnStartPoint(Vector3 position)
-    {
-        // Rohit's spawn randomiser function
-        GameObject spawnObject = Instantiate(startPrefab, position, Quaternion.identity);
-        player.transform.position = spawnObject.transform.position;
-        Debug.Log("Start prefab instantiated at: " + position);
-    }
-
-    void SpawnEndPoint(Vector3 position)
-    {
-        // Rohit's spawn randomiser function
-        Instantiate(endPrefab, position, Quaternion.identity);
-        Debug.Log("End prefab instantiated at: " + position);
-    }
-
-    void SpawnRandomPoint(Vector3 position)
-    {
-        // Randomly select between startPrefab and endPrefab
-        GameObject prefabToSpawn = (Random.value > 0.5f) ? startPrefab : endPrefab;
-        Instantiate(prefabToSpawn, position, Quaternion.identity);
-        Debug.Log("Random prefab instantiated at: " + position);
+        // Use the new data to spawn additional points
+        SpawnPoints(newPositions, true);  // Spawn start points at new positions
+        SpawnPoints(newPositions, false); // Spawn end points at new positions
     }
 }
 
