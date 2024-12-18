@@ -66,18 +66,21 @@ public class MazeRandomizer : MonoBehaviour
 
     void RandomizeMaze()
     {
-        //Vijayesh's randomise function
-        int mazeType = Random.Range(0, 2); // Randomly choose 0 or 1
-
+        for (int i = 0; i < 5; i++);
+        Debug.Log("Iteration " + (i + 1) + ": Selected Maze: " + mazeType);
         if (mazeType == 0)
         {
+            //Aditya’s maze function
             SpawnBlockMaze();
         }
         else
         {
-            GenerateGridMaze(10, 10, 2); // Adjust parameters as needed
+            //Arnav’s maze function
+            GenerateGridMaze(10, 10, 2);
         }
+        Debug.Log(“Maze Generation Complete”);
     }
+
     void GenerateColor(int minRed, int maxRed, int minGreen, int maxGreen, int minBlue, int maxBlue)
     {
         //Prabhav's color function
