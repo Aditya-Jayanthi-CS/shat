@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -6,47 +6,33 @@ public class SpawnManager : MonoBehaviour
     public GameObject endPrefab;
     public GameObject player;
 
-    private List<Vector3> spawnPositions = new List<Vector3>();
-
     void Start()
     {
-       
-        SpawnPoints();
-    }
+        // Sequence: Define start and end positions
+        Vector3 startPosition = new Vector3(0, 0, 0);
+        Vector3 endPosition = new Vector3(10, 0, 0);
 
-    void SpawnPoints()
-    {
-        int spawnCount = 0;
-        while (spawnCount < 2)
+        // Selection: Determine which point to spawn
+        if (Random.value > 0.5f)
         {
-            Vector3 spawnPosition = new Vector3(Random.Range(-9.5f, 9.5f), 0.5f, Random.Range(-9.5f, 9.5f));
-            
-         
-            if (!spawnPositions.Contains(spawnPosition)) 
-            {
-                spawnPositions.Add(spawnPosition);
+            SpawnStartPoint(startPosition);
+        }
+        else
+        {
+            SpawnEndPoint(endPosition);
+        }
 
-              
-                for (int i = 0; i < 1; i++)
-                {
-                    if (spawnCount == 0)
-                    {
-                        SpawnStartPoint(spawnPosition);
-                    }
-                    else
-                    {
-                        SpawnEndPoint(spawnPosition);
-                    }
-                }
-
-                spawnCount++;
-            }
+        // Iteration: Spawn multiple points
+        for (int i = 0; i < 5; i++)
+        {
+            Vector3 randomPosition = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+            SpawnRandomPoint(randomPosition);
         }
     }
 
     void SpawnStartPoint(Vector3 position)
     {
-        //Rohit's spawn randomiser function
+        // Rohit's spawn randomiser function
         GameObject spawnObject = Instantiate(startPrefab, position, Quaternion.identity);
         player.transform.position = spawnObject.transform.position;
         Debug.Log("Start prefab instantiated at: " + position);
@@ -54,9 +40,17 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnEndPoint(Vector3 position)
     {
-        //Rohit's spawn randomiser function
+        // Rohit's spawn randomiser function
         Instantiate(endPrefab, position, Quaternion.identity);
         Debug.Log("End prefab instantiated at: " + position);
+    }
+
+    void SpawnRandomPoint(Vector3 position)
+    {
+        // Randomly select between startPrefab and endPrefab
+        GameObject prefabToSpawn = (Random.value > 0.5f) ? startPrefab : endPrefab;
+        Instantiate(prefabToSpawn, position, Quaternion.identity);
+        Debug.Log("Random prefab instantiated at: " + position);
     }
 }
 
